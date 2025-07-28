@@ -1018,9 +1018,11 @@ LittlerootTown_Text_BirchSomethingToShowYouAtLab:
 
 
 `
+
+
 script LittlerootTown_EventScript_HelloWorldSign{
     lockall
-    msgbox("Hello World! Celestial Platinum")
+    msgbox("Hello World! Celestial Platinum", MSGBOX_SIGN)
     releaseall
 }
 
@@ -1029,6 +1031,71 @@ script LittlerootTown_EventScript_WannaExploreSinnoh{
     faceplayer
     msgbox("Ever considered exploring the \n 
     Sinnoh Region? \l 
-    The Sinnoh Champion is really cute!")
+    The Sinnoh Champion is really cute!", MSGBOX_NPC)
     releaseall
+}
+
+script LittlerootTown_EventScript_NewMon{
+
+	lockall
+	showmonpic(SPECIES_GLIGAR, 10, 3)
+	msgbox ("Do you want to take this Pokemon?" , MSGBOX_YESNO)
+	if(var(VAR_RESULT) == YES){
+		givemon(SPECIES_GLIGAR, 5, ITEM_RAZOR_FANG, abilityNum=2, nature=NATURE_HARDY, isShiny=TRUE)
+		if(var(VAR_RESULT) == MON_GIVEN_TO_PARTY){
+			playfanfare(MUS_OBTAIN_BADGE)
+			msgbox("Received Gligar")
+			removeobject(10)
+			setflag(FLAG_UNUSED_0x020)
+			call(NicknamePartyMon)
+		}
+		elif(var(VAR_RESULT) == MON_GIVEN_TO_PC){
+			playfanfare(MUS_OBTAIN_BADGE)
+			msgbox("Received Gligar")
+			removeobject(10)
+			setflag(FLAG_UNUSED_0x020)
+			call(NicknameBoxMon)
+		}
+		else{
+			hidemonpic
+			msgbox("No More Room")
+
+		}
+	}
+	
+	else{
+		hidemonpic
+		msgbox(NewMon_NotChosen)
+	}
+	
+	waitmessage
+	releaseall
+	end
+
+}
+
+script NicknamePartyMon{
+
+	msgbox("Give it a nickname", MSGBOX_YESNO)
+	hidemonpic
+	if(var(VAR_RESULT) == YES){
+		call(Common_EventScript_GetGiftMonPartySlot)
+		call(Common_EventScript_NameReceivedPartyMon)
+	}
+
+}
+
+script NicknameBoxMon{
+
+	msgbox("Give it a nickname", MSGBOX_YESNO)
+	hidemonpic
+	if(var(VAR_RESULT) == YES){
+		call(Common_EventScript_NameReceivedBoxMon)
+	}
+	msgbox("Transferred to PC")
+
+}
+
+text NewMon_NotChosen{
+	"You did not take the Pokemon"
 }

@@ -2034,31 +2034,155 @@ LittlerootTown_Text_BirchSomethingToShowYouAtLab:
 	.string "Let's go to my LAB.$"
 
 LittlerootTown_EventScript_HelloWorldSign::
-# 1022 "data/maps/LittlerootTown/scripts.pory"
-	lockall
-# 1023 "data/maps/LittlerootTown/scripts.pory"
-	msgbox LittlerootTown_EventScript_HelloWorldSign_Text_0
 # 1024 "data/maps/LittlerootTown/scripts.pory"
+	lockall
+# 1025 "data/maps/LittlerootTown/scripts.pory"
+	msgbox LittlerootTown_EventScript_HelloWorldSign_Text_0, MSGBOX_SIGN
+# 1026 "data/maps/LittlerootTown/scripts.pory"
 	releaseall
 	return
 
 
 LittlerootTown_EventScript_WannaExploreSinnoh::
-# 1028 "data/maps/LittlerootTown/scripts.pory"
-	lockall
-# 1029 "data/maps/LittlerootTown/scripts.pory"
-	faceplayer
 # 1030 "data/maps/LittlerootTown/scripts.pory"
-	msgbox LittlerootTown_EventScript_WannaExploreSinnoh_Text_0
-# 1033 "data/maps/LittlerootTown/scripts.pory"
+	lockall
+# 1031 "data/maps/LittlerootTown/scripts.pory"
+	faceplayer
+# 1032 "data/maps/LittlerootTown/scripts.pory"
+	msgbox LittlerootTown_EventScript_WannaExploreSinnoh_Text_0, MSGBOX_NPC
+# 1035 "data/maps/LittlerootTown/scripts.pory"
 	releaseall
 	return
 
 
+LittlerootTown_EventScript_NewMon::
+# 1040 "data/maps/LittlerootTown/scripts.pory"
+	lockall
+# 1041 "data/maps/LittlerootTown/scripts.pory"
+	showmonpic SPECIES_GLIGAR, 10, 3
+# 1042 "data/maps/LittlerootTown/scripts.pory"
+	msgbox LittlerootTown_EventScript_NewMon_Text_0, MSGBOX_YESNO
+# 1043 "data/maps/LittlerootTown/scripts.pory"
+	compare VAR_RESULT, YES
+	goto_if_eq LittlerootTown_EventScript_NewMon_2
+# 1067 "data/maps/LittlerootTown/scripts.pory"
+	hidemonpic
+# 1068 "data/maps/LittlerootTown/scripts.pory"
+	msgbox NewMon_NotChosen
+LittlerootTown_EventScript_NewMon_1:
+# 1071 "data/maps/LittlerootTown/scripts.pory"
+	waitmessage
+# 1072 "data/maps/LittlerootTown/scripts.pory"
+	releaseall
+	end
+
+LittlerootTown_EventScript_NewMon_2:
+# 1044 "data/maps/LittlerootTown/scripts.pory"
+	givemon SPECIES_GLIGAR, 5, ITEM_RAZOR_FANG, abilityNum = 2, nature = NATURE_HARDY, isShiny = TRUE
+# 1045 "data/maps/LittlerootTown/scripts.pory"
+	compare VAR_RESULT, MON_GIVEN_TO_PARTY
+	goto_if_eq LittlerootTown_EventScript_NewMon_5
+# 1052 "data/maps/LittlerootTown/scripts.pory"
+	compare VAR_RESULT, MON_GIVEN_TO_PC
+	goto_if_eq LittlerootTown_EventScript_NewMon_6
+# 1060 "data/maps/LittlerootTown/scripts.pory"
+	hidemonpic
+# 1061 "data/maps/LittlerootTown/scripts.pory"
+	msgbox LittlerootTown_EventScript_NewMon_Text_2
+	goto LittlerootTown_EventScript_NewMon_1
+
+LittlerootTown_EventScript_NewMon_5:
+# 1046 "data/maps/LittlerootTown/scripts.pory"
+	playfanfare MUS_OBTAIN_BADGE
+# 1047 "data/maps/LittlerootTown/scripts.pory"
+	msgbox LittlerootTown_EventScript_NewMon_Text_1
+# 1048 "data/maps/LittlerootTown/scripts.pory"
+	removeobject 10
+# 1049 "data/maps/LittlerootTown/scripts.pory"
+	setflag FLAG_UNUSED_0x020
+# 1050 "data/maps/LittlerootTown/scripts.pory"
+	call NicknamePartyMon
+	goto LittlerootTown_EventScript_NewMon_1
+
+LittlerootTown_EventScript_NewMon_6:
+# 1053 "data/maps/LittlerootTown/scripts.pory"
+	playfanfare MUS_OBTAIN_BADGE
+# 1054 "data/maps/LittlerootTown/scripts.pory"
+	msgbox LittlerootTown_EventScript_NewMon_Text_1
+# 1055 "data/maps/LittlerootTown/scripts.pory"
+	removeobject 10
+# 1056 "data/maps/LittlerootTown/scripts.pory"
+	setflag FLAG_UNUSED_0x020
+# 1057 "data/maps/LittlerootTown/scripts.pory"
+	call NicknameBoxMon
+	goto LittlerootTown_EventScript_NewMon_1
+
+
+NicknamePartyMon::
+# 1079 "data/maps/LittlerootTown/scripts.pory"
+	msgbox NicknamePartyMon_Text_0, MSGBOX_YESNO
+# 1080 "data/maps/LittlerootTown/scripts.pory"
+	hidemonpic
+# 1081 "data/maps/LittlerootTown/scripts.pory"
+	compare VAR_RESULT, YES
+	goto_if_eq NicknamePartyMon_1
+	return
+
+NicknamePartyMon_1:
+# 1082 "data/maps/LittlerootTown/scripts.pory"
+	call Common_EventScript_GetGiftMonPartySlot
+# 1083 "data/maps/LittlerootTown/scripts.pory"
+	call Common_EventScript_NameReceivedPartyMon
+	return
+
+
+NicknameBoxMon::
+# 1090 "data/maps/LittlerootTown/scripts.pory"
+	msgbox NicknamePartyMon_Text_0, MSGBOX_YESNO
+# 1091 "data/maps/LittlerootTown/scripts.pory"
+	hidemonpic
+# 1092 "data/maps/LittlerootTown/scripts.pory"
+	compare VAR_RESULT, YES
+	goto_if_eq NicknameBoxMon_2
+NicknameBoxMon_1:
+# 1095 "data/maps/LittlerootTown/scripts.pory"
+	msgbox NicknameBoxMon_Text_0
+	return
+
+NicknameBoxMon_2:
+# 1093 "data/maps/LittlerootTown/scripts.pory"
+	call Common_EventScript_NameReceivedBoxMon
+	goto NicknameBoxMon_1
+
+
 LittlerootTown_EventScript_HelloWorldSign_Text_0:
-# 1023 "data/maps/LittlerootTown/scripts.pory"
+# 1025 "data/maps/LittlerootTown/scripts.pory"
 	.string "Hello World! Celestial Platinum$"
 
 LittlerootTown_EventScript_WannaExploreSinnoh_Text_0:
-# 1030 "data/maps/LittlerootTown/scripts.pory"
+# 1032 "data/maps/LittlerootTown/scripts.pory"
 	.string "Ever considered exploring the \n  Sinnoh Region? \l  The Sinnoh Champion is really cute!$"
+
+LittlerootTown_EventScript_NewMon_Text_0:
+# 1042 "data/maps/LittlerootTown/scripts.pory"
+	.string "Do you want to take this Pokemon?$"
+
+LittlerootTown_EventScript_NewMon_Text_1:
+# 1047 "data/maps/LittlerootTown/scripts.pory"
+	.string "Received Gligar$"
+
+LittlerootTown_EventScript_NewMon_Text_2:
+# 1061 "data/maps/LittlerootTown/scripts.pory"
+	.string "No More Room$"
+
+NicknamePartyMon_Text_0:
+# 1079 "data/maps/LittlerootTown/scripts.pory"
+	.string "Give it a nickname$"
+
+NicknameBoxMon_Text_0:
+# 1095 "data/maps/LittlerootTown/scripts.pory"
+	.string "Transferred to PC$"
+
+NewMon_NotChosen::
+# 1099 "data/maps/LittlerootTown/scripts.pory"
+	.string "You did not take the Pokemon$"
